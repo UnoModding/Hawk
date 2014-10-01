@@ -1,0 +1,21 @@
+1) Nickname system (+ possible API for other plugins to hook into.)
+  a) Commands (and subcommands)
+    1) aliases = 'nick' and 'nickname'
+    2) nick set <player> <nickname>
+    3) nick get <player>
+  b) Only one player may have a nickname (eg only one player can have SteveBallmer)
+  c) Integrates into chat (+ possibly in game?)
+2) Improved teleport system
+  a) Commands (and subcommands)
+    1) tpr <player> - Request to tp to a player
+    2) tpa - Accept a tp request
+    3) dtpr and disabletpr - Disable the ability for other players to request to tp to you
+    4) etpr and enabletpr - Enable the ability for other players to request to tp to you
+  b) By default players can request to tp
+  c) Permissions
+    1) hawk.teleport.request ('tpr')
+3) Good configuration file(s)
+  a) Clear structure
+  b) Organised
+  c) Ease of use
+4) Take time to make sure everything is done nicely!
