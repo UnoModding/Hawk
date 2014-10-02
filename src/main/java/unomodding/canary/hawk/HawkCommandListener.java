@@ -47,7 +47,7 @@ public class HawkCommandListener implements CommandListener {
 				caller.message("You are no longer AFK.");
 				Canary.getServer().broadcastMessage(TextFormat.YELLOW + caller.getName() + " is no longer AFK.");
 			}
-		} else {
+		} else if(caller.hasPermission("hawk.afk.setotherplayers")) {
 			AwayFromKeyboard.setAFK(args[0], !AwayFromKeyboard.isAFK(args[0]));
 			if(AwayFromKeyboard.isAFK(args[0])) {
 				caller.message(args[0] + " is now AFK.");
