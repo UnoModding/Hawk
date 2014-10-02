@@ -1,4 +1,4 @@
 name=Hawk
-main-class=unomodding.canary.hawk
+main-class=unomodding.canary.hawk.Hawk
 author=UnoModding
 version=0.1

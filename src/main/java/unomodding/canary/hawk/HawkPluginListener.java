@@ -24,27 +24,23 @@
  */
 package unomodding.canary.hawk;
 
-import net.canarymod.Canary;
-import net.canarymod.commandsys.CommandDependencyException;
-import net.canarymod.plugin.Plugin;
+import unomodding.canary.hawk.afk.AwayFromKeyboard;
+import net.canarymod.api.entity.living.humanoid.Player;
+import net.canarymod.hook.HookHandler;
+import net.canarymod.hook.player.ConnectionHook;
+import net.canarymod.hook.player.DisconnectionHook;
+import net.canarymod.plugin.PluginListener;
 
-public class Hawk extends Plugin {
-	@Override
-	public boolean enable() {
-		// Register Listener
-     	Canary.hooks().registerListener(new HawkPluginListener(), this);
-     	
-		// Register Commands
-		try {
-			Canary.commands().registerCommands(new HawkCommandListener(), this, true);
-		} catch (CommandDependencyException e) {
-			e.printStackTrace();
-		}
-		return true;
+public class HawkPluginListener implements PluginListener {
+	@HookHandler
+    public void onPlayerJoin(ConnectionHook hook) { // Just incase
+		Player player = hook.getPlayer();
+		AwayFromKeyboard.setAFK(player, false);
 	}
-
-	@Override
-	public void disable() {
-		
+	
+	@HookHandler
+    public void onPlayerQuit(DisconnectionHook hook) {
+		Player player = hook.getPlayer();
+		AwayFromKeyboard.setAFK(player, false);
 	}
 }

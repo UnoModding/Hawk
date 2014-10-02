@@ -1,0 +1,5 @@
+1) AwayFromKeyboard (afk) System
+  a) Ability for other plugins to integrate with afk system
+  b) Commands (and subcommands)
+    1) aliases = 'afk'
+    2) allows other players to afk others (with permission)

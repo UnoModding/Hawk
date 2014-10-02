@@ -22,29 +22,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package unomodding.canary.hawk;
+package unomodding.canary.hawk.afk;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import net.canarymod.Canary;
-import net.canarymod.commandsys.CommandDependencyException;
-import net.canarymod.plugin.Plugin;
+import net.canarymod.api.entity.living.humanoid.Player;
 
-public class Hawk extends Plugin {
-	@Override
-	public boolean enable() {
-		// Register Listener
-     	Canary.hooks().registerListener(new HawkPluginListener(), this);
-     	
-		// Register Commands
-		try {
-			Canary.commands().registerCommands(new HawkCommandListener(), this, true);
-		} catch (CommandDependencyException e) {
-			e.printStackTrace();
-		}
-		return true;
+public final class AwayFromKeyboard {
+	private static List<Player> playerList = new ArrayList<Player>();
+	
+	public static void setAFK(String playername, boolean set) {
+		Player player = Canary.getServer().getPlayer(playername);
+		setAFK(player, set);
 	}
-
-	@Override
-	public void disable() {
-		
+	
+	public static void setAFK(Player player, boolean set) {
+		if(set) {
+			if(!isAFK(player)) {
+				playerList.add(player);
+			}
+		} else {
+			if(playerList.contains(player)) {
+				playerList.remove(player);
+			}
+		}
+	}
+	
+	public static boolean isAFK(String playername) {
+		Player player = Canary.getServer().getPlayer(playername);
+		return playerList.contains(player);
+	}
+	
+	public static boolean isAFK(Player player) {
+		return playerList.contains(player);
+	}
+	
+	public static List<Player> getAfkPlayers() {
+		return playerList;
 	}
 }

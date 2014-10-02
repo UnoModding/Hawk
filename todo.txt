@@ -18,4 +18,5 @@
   a) Clear structure
   b) Organised
   c) Ease of use
-4) Take time to make sure everything is done nicely!
+4) Add auto-afk system
+5) Take time to make sure everything is done nicely!

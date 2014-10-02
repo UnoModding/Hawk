@@ -24,8 +24,38 @@
  */
 package unomodding.canary.hawk;
 
+import unomodding.canary.hawk.afk.AwayFromKeyboard;
+import net.canarymod.Canary;
+import net.canarymod.chat.MessageReceiver;
+import net.canarymod.chat.TextFormat;
+import net.canarymod.commandsys.Command;
 import net.canarymod.commandsys.CommandListener;
 
 public class HawkCommandListener implements CommandListener {
-
+	@Command(aliases = {"afk"},
+			description = "afk command",
+			permissions = {},
+			toolTip = "/afk [player]",
+			version = 2)
+	public void afkCommand(MessageReceiver caller, String[] args) {
+		if(args.length > 1) {
+			AwayFromKeyboard.setAFK(caller.getName(), !AwayFromKeyboard.isAFK(caller.getName()));
+			if(AwayFromKeyboard.isAFK(caller.getName())) {
+				caller.message("You are now AFK.");
+				Canary.getServer().broadcastMessage(TextFormat.YELLOW + caller.getName() + " is now AFK.");
+			} else {
+				caller.message("You are no longer AFK.");
+				Canary.getServer().broadcastMessage(TextFormat.YELLOW + caller.getName() + " is no longer AFK.");
+			}
+		} else {
+			AwayFromKeyboard.setAFK(args[0], !AwayFromKeyboard.isAFK(args[0]));
+			if(AwayFromKeyboard.isAFK(args[0])) {
+				caller.message(args[0] + " is now AFK.");
+				Canary.getServer().broadcastMessage(TextFormat.YELLOW + args[0] + " is now AFK.");
+			} else {
+				caller.message(args[0] + " is no longer AFK.");
+				Canary.getServer().broadcastMessage(TextFormat.YELLOW + args[0] + " is now AFK.");
+			}
+		}
+	}
 }
