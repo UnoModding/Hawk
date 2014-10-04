@@ -39,14 +39,10 @@ public final class AwayFromKeyboard {
 	}
 	
 	public static void setAFK(Player player, boolean set) {
-		if(set) {
-			if(!isAFK(player)) {
-				playerList.add(player);
-			}
-		} else {
-			if(playerList.contains(player)) {
-				playerList.remove(player);
-			}
+		if(set && !isAFK(player)) {
+			playerList.add(player);
+		} else if(playerList.contains(player)) {
+			playerList.remove(player);
 		}
 	}
 	
@@ -61,5 +57,9 @@ public final class AwayFromKeyboard {
 	
 	public static List<Player> getAfkPlayers() {
 		return playerList;
+	}
+	
+	public void clearAfkPlayers() {
+		playerList.clear();
 	}
 }

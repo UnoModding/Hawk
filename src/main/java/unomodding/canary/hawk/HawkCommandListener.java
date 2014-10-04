@@ -38,24 +38,20 @@ public class HawkCommandListener implements CommandListener {
 			toolTip = "/afk [player]",
 			version = 2)
 	public void afkCommand(MessageReceiver caller, String[] args) {
-		if(args.length > 1) {
-			AwayFromKeyboard.setAFK(caller.getName(), !AwayFromKeyboard.isAFK(caller.getName()));
-			if(AwayFromKeyboard.isAFK(caller.getName())) {
-				caller.message("You are now AFK.");
-				Canary.getServer().broadcastMessage(TextFormat.YELLOW + caller.getName() + " is now AFK.");
-			} else {
-				caller.message("You are no longer AFK.");
-				Canary.getServer().broadcastMessage(TextFormat.YELLOW + caller.getName() + " is no longer AFK.");
-			}
+		if(args.length == 0) {
+			setAFK(caller, caller.getName());
 		} else if(caller.hasPermission("hawk.afk.setotherplayers")) {
-			AwayFromKeyboard.setAFK(args[0], !AwayFromKeyboard.isAFK(args[0]));
-			if(AwayFromKeyboard.isAFK(args[0])) {
-				caller.message(args[0] + " is now AFK.");
-				Canary.getServer().broadcastMessage(TextFormat.YELLOW + args[0] + " is now AFK.");
-			} else {
-				caller.message(args[0] + " is no longer AFK.");
-				Canary.getServer().broadcastMessage(TextFormat.YELLOW + args[0] + " is now AFK.");
-			}
+			setAFK(caller, args[0]);
+		}
+	}
+	private void setAFK(MessageReceiver caller, String name) {
+		AwayFromKeyboard.setAFK(name, !AwayFromKeyboard.isAFK(name));
+		if(AwayFromKeyboard.isAFK(name)) {
+			caller.message("You are now AFK.");
+			Canary.getServer().broadcastMessage(TextFormat.YELLOW + name + " is now AFK.");
+		} else {
+			caller.message("You are no longer AFK.");
+			Canary.getServer().broadcastMessage(TextFormat.YELLOW + name + " is no longer AFK.");
 		}
 	}
 }
