@@ -22,71 +22,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package unomodding.canary.hawk.afk;
+package unomodding.canary.hawk.tp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
+import unomodding.canary.hawk.Hawk;
 import net.canarymod.Canary;
 import net.canarymod.api.entity.living.humanoid.Player;
+import net.visualillusionsent.utils.PropertiesFile;
 
-public final class AwayFromKeyboard {
-	private static List<Player> playerList = new ArrayList<Player>();
+public final class Teleport {
+	private static final File configFile = new File(Hawk.getConfigFolder(), "tp.cfg");
+	private static PropertiesFile config = new PropertiesFile(configFile);
 	
-	/**
-	 * Set a player AFK, or not.
-	 * @param playername
-	 * @param set
-	 */
-	public static void setAFK(String playername, boolean set) {
-		Player player = Canary.getServer().getPlayer(playername);
-		setAFK(player, set);
+	public static void loadConfig() {
+		config.reload();
 	}
 	
-	/**
-	 * Set a player AFK, or not.
-	 * @param player
-	 * @param set
-	 */
-	public static void setAFK(Player player, boolean set) {
-		if(set && !isAFK(player)) {
-			playerList.add(player);
-		} else if(playerList.contains(player)) {
-			playerList.remove(player);
-		}
+	public static void saveConfig() {
+		config.save();
 	}
 	
-	/**
-	 * Returns if is AFK or not.
-	 * @param playername
-	 * @return true, if is AFK, false, if isn't AFK.
-	 */
-	public static boolean isAFK(String playername) {
-		Player player = Canary.getServer().getPlayer(playername);
-		return playerList.contains(player);
+	public static void teleport(String teleport, String teleportTo) {
+		teleport(Canary.getServer().getPlayer(teleport), Canary.getServer().getPlayer(teleportTo));
 	}
 	
-	/**
-	 * Returns if is AFK or not.
-	 * @param player
-	 * @return true, if is AFK, false, if isn't AFK.
-	 */
-	public static boolean isAFK(Player player) {
-		return playerList.contains(player);
+	public static void teleport(Player teleport, Player teleportTo) {
+		teleport.teleportTo(teleportTo.getLocation());
 	}
 	
-	/**
-	 * List of AFK players.
-	 * @return list of AFK players
-	 */
-	public static List<Player> getAfkPlayers() {
-		return playerList;
+	public static boolean allowsTpRequests(Player playername) {
+		return config.getBoolean(playername.getName(), true);
 	}
 	
-	/**
-	 * Clears the list of AFK players.
-	 */
-	public void clearAfkPlayers() {
-		playerList.clear();
+	public static boolean allowsTpRequests(String playername) {
+		return config.getBoolean(playername, true);
+	}
+	
+	public static void setAllowsTpRequests(Player player, boolean allow) {
+		config.setBoolean(player.getName(), allow);
+	}
+	
+	public static void setAllowsTpRequests(String playername, boolean allow) {
+		config.setBoolean(playername, allow);
 	}
 }

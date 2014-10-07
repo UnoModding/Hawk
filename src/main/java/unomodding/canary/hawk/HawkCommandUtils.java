@@ -24,23 +24,20 @@
  */
 package unomodding.canary.hawk;
 
+import net.canarymod.Canary;
+import net.canarymod.chat.MessageReceiver;
+import net.canarymod.chat.TextFormat;
 import unomodding.canary.hawk.afk.AwayFromKeyboard;
-import net.canarymod.api.entity.living.humanoid.Player;
-import net.canarymod.hook.HookHandler;
-import net.canarymod.hook.player.ConnectionHook;
-import net.canarymod.hook.player.DisconnectionHook;
-import net.canarymod.plugin.PluginListener;
 
-public class HawkPluginListener implements PluginListener {
-	@HookHandler
-    public void onPlayerJoin(ConnectionHook hook) { // Just incase
-		Player player = hook.getPlayer();
-		AwayFromKeyboard.setAFK(player, false);
-	}
-	
-	@HookHandler
-    public void onPlayerQuit(DisconnectionHook hook) {
-		Player player = hook.getPlayer();
-		AwayFromKeyboard.setAFK(player, false);
+public class HawkCommandUtils {
+	public static void setAFK(MessageReceiver caller, String name) {
+		AwayFromKeyboard.setAFK(name, !AwayFromKeyboard.isAFK(name));
+		if(AwayFromKeyboard.isAFK(name)) {
+			caller.message("You are now AFK.");
+			Canary.getServer().broadcastMessage(TextFormat.YELLOW + name + " is now AFK.");
+		} else {
+			caller.message("You are no longer AFK.");
+			Canary.getServer().broadcastMessage(TextFormat.YELLOW + name + " is no longer AFK.");
+		}
 	}
 }

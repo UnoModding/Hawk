@@ -24,15 +24,17 @@
  */
 package unomodding.canary.hawk;
 
+import java.io.File;
+
 import net.canarymod.Canary;
 import net.canarymod.commandsys.CommandDependencyException;
 import net.canarymod.plugin.Plugin;
 
-public class Hawk extends Plugin {
+public final class Hawk extends Plugin {
 	@Override
 	public boolean enable() {
 		// Register Listener
-     	Canary.hooks().registerListener(new HawkPluginListener(), this);
+     	Canary.hooks().registerListener(new HawkListener(), this);
      	
 		// Register Commands
 		try {
@@ -46,5 +48,9 @@ public class Hawk extends Plugin {
 	@Override
 	public void disable() {
 		
+	}
+	
+	public static File getConfigFolder() {
+		return new File(Canary.getWorkingPath() + "/config/Hawk");
 	}
 }

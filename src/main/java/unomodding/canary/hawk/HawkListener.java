@@ -24,21 +24,23 @@
  */
 package unomodding.canary.hawk;
 
-import net.canarymod.chat.MessageReceiver;
-import net.canarymod.commandsys.Command;
-import net.canarymod.commandsys.CommandListener;
+import unomodding.canary.hawk.afk.AwayFromKeyboard;
+import net.canarymod.api.entity.living.humanoid.Player;
+import net.canarymod.hook.HookHandler;
+import net.canarymod.hook.player.ConnectionHook;
+import net.canarymod.hook.player.DisconnectionHook;
+import net.canarymod.plugin.PluginListener;
 
-public class HawkCommandListener implements CommandListener {
-	@Command(aliases = {"afk"},
-			description = "afk command",
-			permissions = {},
-			toolTip = "/afk [player]",
-			version = 2)
-	public void afkCommand(MessageReceiver caller, String[] args) {
-		if(args.length == 0) {
-			HawkCommandUtils.setAFK(caller, caller.getName());
-		} else if(caller.hasPermission("hawk.afk.setotherplayers")) {
-			HawkCommandUtils.setAFK(caller, args[0]);
-		}
+public class HawkListener implements PluginListener {
+	@HookHandler
+    public void onPlayerJoin(ConnectionHook hook) {
+		Player player = hook.getPlayer();
+		AwayFromKeyboard.setAFK(player, false);
+	}
+	
+	@HookHandler
+    public void onPlayerQuit(DisconnectionHook hook) {
+		Player player = hook.getPlayer();
+		AwayFromKeyboard.setAFK(player, false);
 	}
 }
